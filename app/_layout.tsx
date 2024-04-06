@@ -4,7 +4,6 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
-import { useColorScheme } from "nativewind";
 import "@/components/styles/global.css";
 
 export {
@@ -45,10 +44,6 @@ export default function RootLayout() {
 }
 
 function RootLayoutNav() {
-  const { colorScheme, setColorScheme } = useColorScheme();
-
-  setColorScheme("dark");
-
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
