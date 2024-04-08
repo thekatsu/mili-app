@@ -1,116 +1,109 @@
-import { cn } from "@/components/lib/utils";
-import { useEffect, useState } from "react";
-import { Image } from "expo-image";
-import { Alert, SectionList, Text, View } from "react-native";
-import { Badge } from "@/components/ui/Badge";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  SimpleCard,
+} from "@/components/ui/Card";
+import React from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  Text,
+  View,
+} from "react-native";
 
-type SectionListData = {
-  id: string;
-  title: string;
-  data: {
-    id: string;
-    name: string;
-    image: string;
-    tags: {
-      id: string;
-      name: string;
-    }[];
-  }[];
-};
+const ORDERS = [
+  {
+    id: "1",
+    description: "Nicolas Faust",
+  },
+  {
+    id: "2",
+    description: "Diogo Goulart",
+  },
+  {
+    id: "3",
+    description: "Julio Scremim",
+  },
+  {
+    id: "4",
+    description: "Julio Scremim",
+  },
+  {
+    id: "5",
+    description: "Nicolas Faust",
+  },
+  {
+    id: "6",
+    description: "Diogo Goulart",
+  },
+  {
+    id: "7",
+    description: "Julio Scremim",
+  },
+  {
+    id: "8",
+    description: "Julio Scremim",
+  },
+];
 
-const blurhash =
-  "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
-
-export default function TabOneScreen() {
-  const [section, setSection] = useState<SectionListData[]>([]);
-
-  async function fetchSection() {
-    try {
-      const res = await fetch(
-        "http://192.168.2.2:3000/api/v1/product-by-group",
-        {
-          method: "GET",
-        }
-      );
-
-      const data: SectionListData[] = await res.json();
-
-      setSection(data);
-    } catch (error) {
-      console.error(error);
-      Alert.alert("Erro", "Não foi possivel obter as TAGs!");
-    }
-  }
-
-  useEffect(() => {
-    fetchSection();
-  }, []);
-
+function OrderCard({ item }: { item: (typeof ORDERS)[0] }) {
   return (
-    <View className="p-3">
-      <Badge label="New" />
-      <Badge label="Archived" variant="secondary" />
-      <Badge label="Error" variant="destructive" />
-      <Badge label="Accepted" variant="success" />
-      <SectionList
-        sections={section}
-        keyExtractor={(item, index) => item.id}
-        renderItem={({ item, index, section, separators }) => (
-          <View
-            className={cn("bg-slate-400 flex-row", {
-              "rounded-t-xl": index == 0,
-              "rounded-b-xl": index == section.data.length - 1,
-            })}
-          >
-            <View className="p-2">
-              {!item.image && (
-                <View style={{ flex: 1, height: 50, width: 50 }}>
-                  <Text
-                    style={{
-                      flex: 1,
-                      height: 50,
-                      width: 50,
-                      textAlign: "center",
-                      textAlignVertical: "center",
-                    }}
-                  >
-                    {item.name[0].toUpperCase()}
-                  </Text>
-                </View>
-              )}
-              {item.image && (
-                <Image
-                  source={item.image}
-                  //className="flex-1 h-12 w-12"
-                  style={{
-                    flex: 1,
-                    width: 60,
-                    height: 60,
-                    backgroundColor: "#0553",
-                    borderRadius: 10,
-                  }}
-                  placeholder={blurhash}
-                  contentFit="cover"
-                  transition={1000}
-                />
-              )}
-            </View>
-            <View className="flex-1">
-              <Text className="flex-1 capitalize text-base">
-                {item.name.toLowerCase()}
-              </Text>
-              <View className="flex-1 flex-row">
-                {item.tags.map((tag) => (
-                  <Badge key={tag.id} label={tag.name} variant={"default"} />
-                ))}
-              </View>
-            </View>
+    <Card className="flex-1 bg-gray-600">
+      <CardHeader className="flex-1 items-center justify-start">
+        <CardTitle className="flex-1 text-center text-lg">
+          #{`${item.id} - ${item.description}`}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Text>10 Produtos</Text>
+      </CardContent>
+      <CardFooter className="justify-end">
+        <Text>Total: R$ 11,00</Text>
+      </CardFooter>
+    </Card>
+  );
+}
+
+export default function Comands() {
+  return (
+    <View className="flex-1 flex-col p-2 gap-1">
+      <SafeAreaView
+        style={{
+          flex: 1,
+          // paddingTop: StatusBar.currentHeight,
+        }}
+      >
+        <ScrollView
+          className="flex-1"
+          contentContainerStyle={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "flex-start",
+            gap: 4,
+          }}
+        >
+          <View className="flex-1 gap-1">
+            {ORDERS.filter((order) => {
+              return parseInt(order.id) % 2 === 0;
+            }).map((order) => (
+              <OrderCard item={order} key={order.id} />
+            ))}
           </View>
-        )}
-        renderSectionHeader={({ section: { title } }) => (
-          <Text className="font-bold text-lg mt-4">{title.toUpperCase()}</Text>
-        )}
-      />
+          <View className="flex-1 gap-1">
+            {ORDERS.filter((order) => {
+              return parseInt(order.id) % 2 !== 0;
+            }).map((order) => (
+              <OrderCard item={order} key={order.id} />
+            ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 }

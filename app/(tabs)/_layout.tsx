@@ -1,7 +1,8 @@
 import React from "react";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, Text } from "react-native";
+import { Button } from "@/components/ui/Button";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -26,29 +27,38 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Pedidos",
+          tabBarLabel: "Pedidos",
+          tabBarStyle: {
+            height: 60,
+          },
+          tabBarItemStyle: {
+            marginBottom: 8,
+            marginTop: 8,
+          },
+          headerRightContainerStyle: {
+            marginRight: 4,
+          },
+          tabBarIcon: ({ color }) => <TabBarIcon name="tag" color={color} />,
           headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <TabBarIcon
-                    name="info-circle"
-                    size={25}
-                    color={"#FFF"}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
+            <Link href="/search-item/" asChild>
+              <Button
+                label="Novo"
+                size={"lg"}
+                variant={"ghost"}
+                className="bg-blue-400"
+              />
             </Link>
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="/search-item/"
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Adicionar Item ao Pedido",
+          href: null,
+          tabBarLabel: "Item",
+          tabBarIcon: ({ color }) => <TabBarIcon name="tag" color={color} />,
         }}
       />
     </Tabs>
