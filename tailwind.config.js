@@ -1,9 +1,15 @@
-const { hairlineWidth, pixelRatio } = require("nativewind/theme");
+const { hairlineWidth } = require("nativewind/theme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  content: [
+    "./App.{js,jsx,ts,tsx}",
+    "./components/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
+    "./app/**/**/*.{js,jsx,ts,tsx}",
+  ],
   presets: [require("nativewind/preset")],
+  darkMode: "class",
   theme: {
     container: {
       center: true,
@@ -13,9 +19,6 @@ module.exports = {
       },
     },
     extend: {
-      fontSize: {
-        xxs: ["0.65rem", "0.65rem"],
-      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

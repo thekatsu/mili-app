@@ -1,12 +1,12 @@
-import { Switch as NativeSwitch, useColorScheme } from 'react-native';
+import { Switch as NativeSwitch, useColorScheme } from "react-native";
 
-import { theme } from '../styles/theme';
+import { theme } from "../styles/theme";
 
 function Switch({
   ...props
 }: React.ComponentPropsWithoutRef<typeof NativeSwitch>) {
   const colorScheme = useColorScheme();
-  const currentTheme = colorScheme === 'dark' ? theme.dark : theme.light;
+  const currentTheme = colorScheme === "dark" ? theme.dark : theme.light;
 
   const trackColor = props.trackColor || {
     false: currentTheme.background,

@@ -1,9 +1,9 @@
-import { Circle, CircleDot } from 'lucide-react-native';
-import { createContext, useContext, useState } from 'react';
-import { Text, TouchableOpacity, useColorScheme } from 'react-native';
+import { Circle, CircleDot } from "lucide-react-native";
+import { createContext, useContext, useState } from "react";
+import { Text, TouchableOpacity, useColorScheme } from "react-native";
 
-import { cn } from '../lib/utils';
-import { theme } from '../styles/theme';
+import { cn } from "../lib/utils";
+import { theme } from "../styles/theme";
 
 interface RadioGroupContextType {
   value: string;
@@ -42,17 +42,17 @@ function RadioGroupItem({
 }: RadioGroupItemProps) {
   const context = useContext(RadioGroupContext);
   if (!context) {
-    throw new Error('RadioGroupItem must be used within a RadioGroup');
+    throw new Error("RadioGroupItem must be used within a RadioGroup");
   }
   const { value: selectedValue, setValue } = context;
 
   const colorScheme = useColorScheme();
-  const currentTheme = colorScheme === 'dark' ? theme.dark : theme.light;
+  const currentTheme = colorScheme === "dark" ? theme.dark : theme.light;
 
   return (
     <TouchableOpacity
       onPress={() => setValue(value)}
-      className={cn('flex flex-row items-center gap-2', className)}
+      className={cn("flex flex-row items-center gap-2", className)}
       {...props}
     >
       {selectedValue === value ? (
@@ -61,7 +61,7 @@ function RadioGroupItem({
         <Circle color={currentTheme.foreground} />
       )}
       {label && (
-        <Text className={cn('text-primary', labelClasses)}>{label}</Text>
+        <Text className={cn("text-primary", labelClasses)}>{label}</Text>
       )}
     </TouchableOpacity>
   );
@@ -74,7 +74,7 @@ interface RadioGroupLabelProps
 function RadioGroupLabel({ value, className, ...props }: RadioGroupLabelProps) {
   const context = useContext(RadioGroupContext);
   if (!context) {
-    throw new Error('RadioGroupLabel must be used within a RadioGroup');
+    throw new Error("RadioGroupLabel must be used within a RadioGroup");
   }
   const { setValue } = context;
 

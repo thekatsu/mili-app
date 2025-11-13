@@ -1,10 +1,17 @@
+import { useEffect } from "react";
+
+import "@/components/styles/global.css";
+
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
-
-import "@/components/styles/global.css";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { ThemeProvider } from "@react-navigation/native";
+import { themes } from "@/components/styles/theme";
+import { DatabaseProvider } from "@nozbe/watermelondb/react";
+import { db } from "@/database";
+import { useColorScheme } from "nativewind";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -25,6 +32,9 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const { colorScheme } = useColorScheme();
+  const theme = colorScheme === "dark" ? themes.dark : themes.light;
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
@@ -40,14 +50,36 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  // await db.unsafeResetDatabase()
+
+  // verifyInstallation();
+
+  return (
+    <DatabaseProvider database={db}>
+      <ThemeProvider value={theme}>
+        <SafeAreaProvider>
+          <RootLayoutNav />
+        </SafeAreaProvider>
+      </ThemeProvider>
+    </DatabaseProvider>
+  );
 }
 
 function RootLayoutNav() {
   return (
     <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      {/* <Stack.Screen name="modal" options={{ presentation: "modal" }} /> */}
+      <Stack.Screen
+        name="(tabs)"
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="order-list/order/[id]"
+        options={{
+          title: "Itens do pedido",
+        }}
+      />
     </Stack>
   );
 }

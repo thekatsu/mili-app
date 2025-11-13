@@ -64,12 +64,16 @@ const Button = forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>(
       <Pressable
         className={cn(buttonVariants({ variant, size, className }))}
         {...props}
+        ref={ref}
       >
         {({ pressed }) => (
           <Text
             className={cn(
-              buttonTextVariants({ variant, size, className: labelClasses }),
-              { "opacity-50": pressed }
+              buttonTextVariants({
+                variant,
+                size,
+                className: cn(labelClasses, { "opacity-50": pressed }),
+              })
             )}
           >
             {label}
